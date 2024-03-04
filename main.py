@@ -22,8 +22,11 @@ async def ainput(prompt: str = "") -> str:
 async def start_bots():
     global bot
     user_bots = []
-    codes = [i for i in open("codes.txt")]
-    bot = UserBot(name="1", target=chat_id, card_begin=codes, api_id=api_id, api_hash=api_hash)
+    with open("codes.txt") as file:
+        text = file.read()
+        data = text.split(", ")
+        file.close()
+    bot = UserBot(name="1", target=chat_id, card_begin=data, api_id=api_id, api_hash=api_hash)
     user_bots.append(await bot.starts())
     await compose(user_bots, sequential=True)
 
